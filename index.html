@@ -25,7 +25,15 @@
             <div id="qrcode"></div>
         </div>
     </div>
-
+    <style>
+        .qr-container {
+            text-align: center;
+        }
+        .qr-container img {
+            width: 200px; /* Definir a largura do QR Code */
+            height: 200px; /* Definir a altura do QR Code */
+        }
+    </style>
     <script>
         // Função para decodificar base64
         function base64Decode(str) {
@@ -61,7 +69,7 @@
                 qr.make();
                 document.getElementById('qrcode').innerHTML = qr.createImgTag();
             } else {
-                alert("UUID não encontrado no link fornecido.");
+                alert("Identificador de sessão do usuário não encontrado no link fornecido.");
             }
         });
     </script>
