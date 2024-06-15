@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transformar Link e Gerar QR Code</title>
+    <title>Gerar link de atualização</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- QR Code Library -->
@@ -11,13 +11,13 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Transformar Link e Gerar QR Code</h1>
+        <h1 class="text-center">Gerar link de atualização</h1>
         <div class="form-group">
             <label for="linkInput">Cole o link da página de edição do usuário:</label>
             <input type="text" class="form-control" id="linkInput" placeholder="Cole o link aqui">
             <small class="form-text text-muted">Insira o link da página de edição do usuário para gerar um novo link e QR Code.</small>
         </div>
-        <button id="generateButton" class="btn btn-primary">Gerar Novo Link e QR Code</button>
+        <button id="generateButton" class="btn btn-primary">Gerar Link de Atualização</button>
         <div class="mt-4">
             <h4>Novo Link:</h4>
             <p id="newLink"></p>
@@ -56,7 +56,7 @@
                 document.getElementById('newLink').innerText = newLink;
 
                 // Gerar o QR Code
-                const qr = qrcode(4, 'L');
+                const qr = qrcode(10, 'L');
                 qr.addData(newLink);
                 qr.make();
                 document.getElementById('qrcode').innerHTML = qr.createImgTag();
