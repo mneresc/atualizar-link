@@ -3,9 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Site no GitHub Pages</title>
+    <title>Transformar Link e Gerar QR Code</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 </head>
 <body>
-    <h1>Bem-vindo ao meu site no GitHub Pages!</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Transformar Link e Gerar QR Code</h1>
+        <div class="form-group">
+            <label for="linkInput">Cole o link da página de edição do usuário:</label>
+            <input type="text" class="form-control" id="linkInput" placeholder="Cole o link aqui">
+            <small class="form-text text-muted">Insira o link da página de edição do usuário para gerar um novo link e QR Code.</small>
+        </div>
+        <button id="generateButton" class="btn btn-primary">Gerar Novo Link e QR Code</button>
+        <div class="mt-4">
+            <h4>Novo Link:</h4>
+            <p id="newLink"></p>
+            <h4>QR Code:</h4>
+            <div id="qrcode"></div>
+        </div>
+    </div>
+
+    <script>
+        // Função para decodificar base64
+        function base64Decode(str) {
+            return decodeURIComponent(atob(str).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+        }
+
+        document.getElementById('generateButton').addEventListener('click', function () {
+            // Obter o link inserido pelo usuário
+            const linkInput = document.getElementById('linkInput').value;
+
+            // Extrair o UUID do link
+            const regex = /([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})/;
+            const match = linkInput.match(regex);
+
+            if (match && match[1]) {
+                const uuid = match[1];
+
+                // Link base codificado em base64
+                const base64Link = "aHR0cDovL2Fzc29jaWFkby5nZXN0YW9hc3NwZW4uY29tLmJyL2F0dWFsaXphY2FvLw==";
+                const baseLink = base64Decode(base64Link);
+
+                // Criar o novo link com base no UUID
+                const newLink = `${baseLink}${uuid}`;
+
+                // Exibir o novo link
+                document.getElementById('newLink').innerText = newLink;
+
+                // Gerar o QR Code
+                const qr = qrcode(4, 'L');
+                qr.addData(newLink);
+                qr.make();
+                document.getElementById('qrcode').innerHTML = qr.createImgTag();
+            } else {
+                alert("UUID não encontrado no link fornecido.");
+            }
+        });
+    </script>
 </body>
 </html>
